@@ -6,14 +6,15 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:47:06 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/12 12:52:12 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:40:40 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	prinf("Hello, Philosophers!\n");
+	if (argc == 2)
+		printf("Hello, %s!\n", argv[1]);
 	return (0);
 }
