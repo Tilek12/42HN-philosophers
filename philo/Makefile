@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/06/14 17:43:17 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/06/17 18:07:03 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,13 +52,17 @@ CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -f
 RMDIR	= rm -rf
 
-# Source and Object files
-SRC		= main.c
-OBJ_DIR = obj
-OBJ		= $(SRC:%.c=$(OBJ_DIR)/%.o)
+# Source and Object files and directories
+INCLUDE_DIR	= include
+SRC_DIR		= src
+SRC			= $(SRC_DIR)/main.c \
+				$(SRC_DIR)/input_handler.c \
+				$(SRC_DIR)/input_checker.c
+OBJ_DIR		= obj
+OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 # Header
-HEADER	= philo.h
+HEADER  = $(INCLUDE_DIR)/philo.h
 
 # Rules
 all: $(NAME)
@@ -66,7 +70,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@printf "$(L_YELLOW)Linking $@ $(RESET)"
 	@{ \
-	$(CC) $(OBJ) -o $(NAME) & pid=$$!; \
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) & pid=$$!; \
 	spin='-\|/'; \
 	i=0; \
 	while kill -0 $$pid 2>/dev/null; do \
@@ -76,15 +80,15 @@ $(NAME): $(OBJ)
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(YELLOW)Linking $@ $(RESET)$(RED)[failed]$(RESET)\n"; \
+		printf "\r$(YELLOW)Linking $@ $(RESET)$(RED)❌[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(YELLOW)Linking $@ $(RESET)$(GREEN)[done]$(RESET)\n"; \
+		printf "\r$(YELLOW)Linking $@ $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
 		printf "$(L_GREEN)"; printf "$$IMG"; printf "$(RESET)\n"; \
 	fi; \
 	}
 
-$(OBJ_DIR)/%.o: %.c $(HEADER)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
 	@mkdir -p $(OBJ_DIR)
 	@printf "$(L_YELLOW)Compiling $< $(RESET)"
 	@{ \
@@ -98,10 +102,10 @@ $(OBJ_DIR)/%.o: %.c $(HEADER)
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(YELLOW)Compiling $< $(RESET)$(RED)[failed]$(RESET)\n"; \
+		printf "\r$(YELLOW)Compiling $< $(RESET)$(RED)❌[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(YELLOW)Compiling $< $(RESET)$(GREEN)[done]$(RESET)\n"; \
+		printf "\r$(YELLOW)Compiling $< $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
 	fi; \
 	}
 
@@ -119,10 +123,10 @@ clean:
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(CYAN)Cleaning object files and directories $(RESET)$(RED)[failed]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning object files and directories $(RESET)$(RED)❌[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(CYAN)Cleaning object files and directories $(RESET)$(GREEN)[done]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning object files and directories $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
 	fi; \
 	$(RMDIR) $(OBJ_DIR); \
 	}; \
@@ -131,7 +135,7 @@ clean:
 	fi;
 
 fclean: clean
-	@printf "$(L_CYAN)Cleaning executable file $(RESET)"
+	@printf "$(L_CYAN)Cleaning executable files $(RESET)"
 	@if [ -e $(NAME) ]; then \
 	{ \
 	$(RM) $(NAME) & pid=$$!; \
@@ -139,15 +143,15 @@ fclean: clean
 	i=0; \
 	while kill -0 $$pid 2>/dev/null; do \
 		i=$$(( (i+1) % 4 )); \
-		printf "\r$(L_CYAN)Cleaning executable file $(RESET)[%c]" "$${spin:$${i}:1}"; \
+		printf "\r$(L_CYAN)Cleaning executable files $(RESET)[%c]" "$${spin:$${i}:1}"; \
 		sleep 0.1; \
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(CYAN)Cleaning executable file $(RESET)$(RED)[failed]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning executable files $(RESET)$(RED)❌[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(CYAN)Cleaning executable file $(RESET)$(GREEN)[done]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning executable files $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
 	fi; \
 	}; \
 	else \

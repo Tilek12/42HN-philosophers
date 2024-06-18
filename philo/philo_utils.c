@@ -1,20 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 12:47:06 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/12 19:40:40 by tkubanyc         ###   ########.fr       */
+/*   Created: 2024/06/15 14:45:07 by tkubanyc          #+#    #+#             */
+/*   Updated: 2024/06/18 12:04:50 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-int	main(int argc, char **argv)
-{
-	if (argc == 2)
-		printf("Hello, %s!\n", argv[1]);
-	return (0);
-}
+#include "../include/philo.h"
