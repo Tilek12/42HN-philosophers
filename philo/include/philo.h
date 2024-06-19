@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/18 17:20:22 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:28:52 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		input_handler(int argc, char **argv, t_data *data);
 int		ft_atoi(char *str);
 int		is_correct_input(char **str);
 int		init_mutex(pthread_mutex_t *mutex, t_option option);
-int		init_thread(pthread_t thread, void *(*func)(void *),
-	void *data, t_option option);
+int		init_thread(pthread_t *thread, void *(*func)(void *),
+	void *info, t_option option);
 
 #endif

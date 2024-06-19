@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/06/17 18:07:03 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/06/19 09:05:47 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,9 @@ INCLUDE_DIR	= include
 SRC_DIR		= src
 SRC			= $(SRC_DIR)/main.c \
 				$(SRC_DIR)/input_handler.c \
-				$(SRC_DIR)/input_checker.c
+				$(SRC_DIR)/input_checker.c \
+				$(SRC_DIR)/thread_handler.c \
+				$(SRC_DIR)/mutex_handler.c
 OBJ_DIR		= obj
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
@@ -80,10 +82,10 @@ $(NAME): $(OBJ)
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(YELLOW)Linking $@ $(RESET)$(RED)❌[failed]$(RESET)\n"; \
+		printf "\r$(YELLOW)Linking $@  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(YELLOW)Linking $@ $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
+		printf "\r$(YELLOW)Linking $@  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
 		printf "$(L_GREEN)"; printf "$$IMG"; printf "$(RESET)\n"; \
 	fi; \
 	}
@@ -102,10 +104,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(YELLOW)Compiling $< $(RESET)$(RED)❌[failed]$(RESET)\n"; \
+		printf "\r$(YELLOW)Compiling $<  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(YELLOW)Compiling $< $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
+		printf "\r$(YELLOW)Compiling $<  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
 	fi; \
 	}
 
@@ -123,10 +125,10 @@ clean:
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(CYAN)Cleaning object files and directories $(RESET)$(RED)❌[failed]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning object files and directories  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(CYAN)Cleaning object files and directories $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning object files and directories  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
 	fi; \
 	$(RMDIR) $(OBJ_DIR); \
 	}; \
@@ -148,10 +150,10 @@ fclean: clean
 	done; \
 	wait $$pid; \
 	if [ $$? -ne 0 ]; then \
-		printf "\r$(CYAN)Cleaning executable files $(RESET)$(RED)❌[failed]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning executable files  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
 		exit 1; \
 	else \
-		printf "\r$(CYAN)Cleaning executable files $(RESET)$(GREEN)✅[done]$(RESET)\n"; \
+		printf "\r$(CYAN)Cleaning executable files  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
 	fi; \
 	}; \
 	else \

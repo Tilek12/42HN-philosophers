@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:37:55 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/18 16:26:53 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:36:56 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,25 @@ int	init_mutex(pthread_mutex_t *mutex, t_option option)
 {
 	if (option == INIT)
 	{
-		if (!error_mutex(pthread_mutex_init(mutex, NULL), option));
+		if (!error_mutex(pthread_mutex_init(mutex, NULL), option))
 			return (0);
 	}
 	else if (option == LOCK)
 	{
-		if (!error_mutex(pthread_mutex_lock(mutex), option));
+		if (!error_mutex(pthread_mutex_lock(mutex), option))
 			return (0);
 	}
 	else if (option == UNLOCK)
 	{
-		if (!error_mutex(pthread_mutex_unlock(mutex), option));
+		if (!error_mutex(pthread_mutex_unlock(mutex), option))
 			return (0);
 	}
 	else if (option == DESTROY)
 	{
-		if (!error_mutex(pthread_mutex_destroy(mutex), option));
+		if (!error_mutex(pthread_mutex_destroy(mutex), option))
 			return (0);
 	}
 	else
-		return (printf("Error! Incorrect option for mutex_init.\n"), 0);
+		return (printf(R"Error! Incorrect option for mutex_init.\n"RES), 0);
 	return (1);
 }

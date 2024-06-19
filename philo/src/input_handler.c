@@ -6,13 +6,13 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/18 17:47:13 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:08:35 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-int init_philo(t_data *data)
+int	init_philo(t_data *data)
 {
 	t_philo	*philo;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:37:43 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/18 16:35:00 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:36:52 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ static int	error_thread(int status, t_option option)
 		threads in a process [PTHREAD_THREADS_MAX] would be exceeded.\n"RES);
 	}
 	else if (status == EPERM)
-	{
-		printf(R"Error! The caller does not have appropriate permission to \
-		set the required scheduling parameters or scheduling policy.\n"RES);
-	}
+		printf(R"Error! No permission to set the required parameters \n"RES);
 	else if (status == EDEADLK)
 	{
 		printf(R"Error! A deadlock was detected or the value of thread \
@@ -40,32 +37,29 @@ static int	error_thread(int status, t_option option)
 	else if (status == EINVAL && option == CREATE)
 		printf(R"Error! The value specified by attr is invalid.\n"RES);
 	else if (status == EINVAL && (option == JOIN || option == DETACH))
-	{
-		printf(R"Error! The implementation has detected that the value \
-		specified by thread does not refer to a joinable thread.\n"RES);
-	}
+		printf(R"Error! The value does not refer to a joinable thread.\n"RES);
 	return (0);
 }
 
-int	init_thread(pthread_t thread, void *(*func)(void *),
-	void *data, t_option option)
+int	init_thread(pthread_t *thread, void *(*func)(void *),
+	void *info, t_option option)
 {
 	if (option == CREATE)
 	{
-		if (!error_thread(pthread_create(thread, NULL, func, data), option))
+		if (!error_thread(pthread_create(thread, NULL, func, info), option))
 			return (0);
 	}
 	else if (option == JOIN)
 	{
-		if (!error_thread(pthread_join(thread, NULL), option))
+		if (!error_thread(pthread_join(*thread, NULL), option))
 			return (0);
 	}
 	else if (option == DETACH)
 	{
-		if (!error_thread(pthread_detach(thread), option))
+		if (!error_thread(pthread_detach(*thread), option))
 			return (0);
 	}
 	else
-		return (printf("Error! Incorrect option for thread_init.\n"), 0);
+		return (printf(R"Error! Incorrect option for thread_init.\n"RES), 0);
 	return (1);
 }
