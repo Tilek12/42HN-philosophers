@@ -6,24 +6,24 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 10:20:39 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/21 12:13:19 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/22 18:02:11 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-int	get_time(t_time time, t_data *data)
+int	get_time(t_time_def time_def, t_data *data)
 {
-	struct timeval	tv;
+	struct timeval	time;
 
-	if (gettimeofday(&tv, NULL))
-		return (free_exit(data));
-	if (time == MICROSECONDS)
-		return ((tv.tv_sec * 1000000) + tv.tv_usec);
-	else if (time == MILLISECONDS)
-		return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	if (gettimeofday(&time, NULL))
+		return (error_free(data));
+	if (time_def == MICROSECONDS)
+		return ((time.tv_sec * 1000000) + time.tv_usec);
+	else if (time_def == MILLISECONDS)
+		return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 	else
-		return (free_exit(data));
+		return (error_free(data));
 }
 
 void	philo_run(void *param)
@@ -50,5 +50,7 @@ int	philo_start(t_data *data)
 			i++;
 		}
 	}
+	if (!set_value(&data->block, &data->philos_ready, 1, data))
+		return (error_free(data));
 	return (1);
 }

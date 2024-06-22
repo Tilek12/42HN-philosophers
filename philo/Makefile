@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/06/19 09:05:47 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/06/22 15:18:39 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,8 +58,10 @@ SRC_DIR		= src
 SRC			= $(SRC_DIR)/main.c \
 				$(SRC_DIR)/input_handler.c \
 				$(SRC_DIR)/input_checker.c \
+				$(SRC_DIR)/error_handler.c \
 				$(SRC_DIR)/thread_handler.c \
-				$(SRC_DIR)/mutex_handler.c
+				$(SRC_DIR)/mutex_handler.c \
+				$(SRC_DIR)/value_handler.c
 OBJ_DIR		= obj
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 

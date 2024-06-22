@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:37:55 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/19 09:55:48 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/22 13:51:20 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,22 @@ int	mutex_handler(pthread_mutex_t *mutex, t_option option)
 {
 	if (option == INIT)
 	{
-		if (!error_mutex(pthread_mutex_init(mutex, NULL), option))
+		if (!mutex_error(pthread_mutex_init(mutex, NULL), option))
 			return (0);
 	}
 	else if (option == LOCK)
 	{
-		if (!error_mutex(pthread_mutex_lock(mutex), option))
+		if (!mutex_error(pthread_mutex_lock(mutex), option))
 			return (0);
 	}
 	else if (option == UNLOCK)
 	{
-		if (!error_mutex(pthread_mutex_unlock(mutex), option))
+		if (!mutex_error(pthread_mutex_unlock(mutex), option))
 			return (0);
 	}
 	else if (option == DESTROY)
 	{
-		if (!error_mutex(pthread_mutex_destroy(mutex), option))
+		if (!mutex_error(pthread_mutex_destroy(mutex), option))
 			return (0);
 	}
 	else

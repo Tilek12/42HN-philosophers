@@ -6,13 +6,13 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/21 11:35:42 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:04:54 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static void	init_philo_forks(t_data *data, int i)
+void	init_philo_forks(t_data *data, int i)
 {
 	t_fork	*fork_first;
 	t_fork	*fork_second;
@@ -32,7 +32,7 @@ static void	init_philo_forks(t_data *data, int i)
 	}
 }
 
-static void	init_philo(t_data *data)
+void	init_philo(t_data *data)
 {
 	int		i;
 
@@ -48,7 +48,7 @@ static void	init_philo(t_data *data)
 	}
 }
 
-static int	init_fork(t_data	*data)
+int	init_fork(t_data *data)
 {
 	int	i;
 
@@ -63,7 +63,7 @@ static int	init_fork(t_data	*data)
 	return (1);
 }
 
-static int	init_data(int argc, char **argv, t_data *data)
+int	init_data(int argc, char **argv, t_data *data)
 {
 	if (argc == 6)
 		data->eat_repeat = ft_atoi(argv[5]);
@@ -73,19 +73,16 @@ static int	init_data(int argc, char **argv, t_data *data)
 	data->time_sleep = ft_atoi(argv[4]) * 1000;
 	data->philo_array = malloc(sizeof(t_philo) * data->philo_num);
 	if (data->philo_array == NULL)
-		return (printf(R"Memory allocating Error!\n"RES), 0);
+		return (error_malloc());
 	data->fork_array = malloc(sizeof(t_fork) * data->philo_num);
 	if (data->fork_array == NULL)
-	{
-		free(data->philo_array);
-		return (printf(R"Memory allocating Error!\n"RES), 0);
-	}
+		return (free(data->philo_array), error_malloc());
 	data->end = 0;
 	data->philos_ready = 0;
 	if (!mutex_handler(data->block, INIT))
-		return (free_exit(data));
+		return (error_free(data));
 	if (!init_fork(data))
-		return (free_exit(data));
+		return (error_free(data));
 	init_philo(data);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/21 11:51:16 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/22 15:34:56 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@
 # define C "\033[36m"
 # define W "\033[37m"
 
-typedef enum e_time
+typedef enum e_time_def
 {
 	MICROSECONDS,
 	MILLISECONDS,
-}			t_time;
+}			t_time_def;
 
 typedef enum e_option
 {
@@ -83,11 +83,20 @@ typedef struct s_data
 }				t_data;
 
 int		input_handler(int argc, char **argv, t_data *data);
+int		init_data(int argc, char **argv, t_data *data);
+int		init_fork(t_data *data);
+void	init_philo(t_data *data);
+void	init_philo_forks(t_data *data, int i);
 int		ft_atoi(char *str);
 int		is_correct_input(char **str);
 int		mutex_handler(pthread_mutex_t *mutex, t_option option);
 int		thread_handler(pthread_t *thread, void *(*func)(void *),
 		void *info, t_option option);
-int		free_exit(t_data *data);
+int		error_free(t_data *data);
+int		error_malloc(void);
+int		get_value(pthread_mutex_t *mutex, int *value, t_data *data);
+int		set_value(pthread_mutex_t *mutex, int *variable,
+		int value, t_data *data);
+int		is_finished(t_data *data);
 
 #endif
