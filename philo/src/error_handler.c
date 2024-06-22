@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 12:47:06 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/19 12:27:56 by tkubanyc         ###   ########.fr       */
+/*   Created: 2024/06/21 11:27:53 by tkubanyc          #+#    #+#             */
+/*   Updated: 2024/06/21 11:29:45 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-int	main(int argc, char **argv)
+int	free_exit(t_data *data)
 {
-	t_data	data;
-
-	if (!input_handler(argc, argv, &data))
-		return (EXIT_FAILURE);
+	free(data->philo_array);
+	free(data->fork_array);
 	return (0);
 }

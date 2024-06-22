@@ -6,13 +6,13 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:37:55 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/19 09:36:56 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/19 09:55:48 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-static int	error_mutex(int status, t_option option)
+static int	mutex_error(int status, t_option option)
 {
 	if (status == 0)
 		return (1);
@@ -31,7 +31,7 @@ static int	error_mutex(int status, t_option option)
 	return (0);
 }
 
-int	init_mutex(pthread_mutex_t *mutex, t_option option)
+int	mutex_handler(pthread_mutex_t *mutex, t_option option)
 {
 	if (option == INIT)
 	{

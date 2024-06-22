@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/19 09:28:52 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/21 11:51:16 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@
 # define C "\033[36m"
 # define W "\033[37m"
 
+typedef enum e_time
+{
+	MICROSECONDS,
+	MILLISECONDS,
+}			t_time;
+
 typedef enum e_option
 {
 	INIT,
@@ -44,8 +50,6 @@ typedef enum e_option
 	DETACH,
 }			t_option;
 
-typedef struct s_data	t_data;
-
 typedef struct s_fork
 {
 	pthread_mutex_t	fork;
@@ -56,32 +60,34 @@ typedef struct s_philo
 {
 	int			id_philo;
 	pthread_t	id_thread;
-	t_fork		fork_left;
-	t_fork		fork_right;
+	t_fork		*fork_1;
+	t_fork		*fork_2;
 	int			eat_counter;
 	int			last_eating;
 	int			finish;
-	t_data		*data;
 }				t_philo;
 
-struct s_data
+typedef struct s_data
 {
-	t_fork	*fork_array;
-	t_philo	*philo_array;
-	int		philo_num;
-	int		time_die;
-	int		time_eat;
-	int		time_sleep;
-	int		eat_repeat;
-	int		start_time;
-	int		end;
-};
+	pthread_mutex_t	*block;
+	t_fork			*fork_array;
+	t_philo			*philo_array;
+	int				philo_num;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				eat_repeat;
+	int				philos_ready;
+	int				start_time;
+	int				end;
+}				t_data;
 
 int		input_handler(int argc, char **argv, t_data *data);
 int		ft_atoi(char *str);
 int		is_correct_input(char **str);
-int		init_mutex(pthread_mutex_t *mutex, t_option option);
-int		init_thread(pthread_t *thread, void *(*func)(void *),
-	void *info, t_option option);
+int		mutex_handler(pthread_mutex_t *mutex, t_option option);
+int		thread_handler(pthread_t *thread, void *(*func)(void *),
+		void *info, t_option option);
+int		free_exit(t_data *data);
 
 #endif
