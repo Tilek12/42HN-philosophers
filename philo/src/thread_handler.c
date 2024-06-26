@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 13:37:43 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/19 09:56:30 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:37:41 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ static int	thread_error(int status, t_option option)
 }
 
 int	thread_handler(pthread_t *thread, void *(*func)(void *),
-	void *info, t_option option)
+	void *param, t_option option)
 {
 	if (option == CREATE)
 	{
-		if (!thread_error(pthread_create(thread, NULL, func, info), option))
+		if (!thread_error(pthread_create(thread, NULL, func, param), option))
 			return (0);
 	}
 	else if (option == JOIN)

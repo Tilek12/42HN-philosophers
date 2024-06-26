@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/06/22 15:18:39 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/06/25 17:48:52 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ RESET		= \033[0m
 # Variables
 NAME	= philo
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g
 RM		= rm -f
 RMDIR	= rm -rf
 
@@ -61,7 +61,9 @@ SRC			= $(SRC_DIR)/main.c \
 				$(SRC_DIR)/error_handler.c \
 				$(SRC_DIR)/thread_handler.c \
 				$(SRC_DIR)/mutex_handler.c \
-				$(SRC_DIR)/value_handler.c
+				$(SRC_DIR)/value_handler.c \
+				$(SRC_DIR)/philo_run.c \
+				$(SRC_DIR)/philo_action.c
 OBJ_DIR		= obj
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 

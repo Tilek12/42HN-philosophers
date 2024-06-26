@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/22 14:04:54 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:59:10 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_philo_forks(t_data *data, int i)
 	}
 }
 
-void	init_philo(t_data *data)
+int	init_philo(t_data *data)
 {
 	int		i;
 
@@ -40,12 +40,15 @@ void	init_philo(t_data *data)
 	while (i < data->philo_num)
 	{
 		data->philo_array[i].id_philo = i + 1;
-		data->philo_array[i].finish = 0;
+		data->philo_array[i].is_finish_eating = 0;
 		data->philo_array[i].eat_counter = 0;
-		data->philo_array[i].finish = 0;
+		data->philo_array[i].last_eating = 0;
 		init_philo_forks(data, i);
+		if (!mutex_handler(&data->philo_array[i].lock_philo, INIT))
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
 int	init_fork(t_data *data)
@@ -67,6 +70,8 @@ int	init_data(int argc, char **argv, t_data *data)
 {
 	if (argc == 6)
 		data->eat_repeat = ft_atoi(argv[5]);
+	else
+		data->eat_repeat = -1;
 	data->philo_num = ft_atoi(argv[1]);
 	data->time_die = ft_atoi(argv[2]) * 1000;
 	data->time_eat = ft_atoi(argv[3]) * 1000;
@@ -77,13 +82,16 @@ int	init_data(int argc, char **argv, t_data *data)
 	data->fork_array = malloc(sizeof(t_fork) * data->philo_num);
 	if (data->fork_array == NULL)
 		return (free(data->philo_array), error_malloc());
-	data->end = 0;
-	data->philos_ready = 0;
-	if (!mutex_handler(data->block, INIT))
+	data->end_program = 0;
+	data->start_ready = 0;
+	if (!mutex_handler(&data->lock_data, INIT))
+		return (error_free(data));
+	if (!mutex_handler(&data->lock_print, INIT))
 		return (error_free(data));
 	if (!init_fork(data))
 		return (error_free(data));
-	init_philo(data);
+	if (!init_philo(data))
+		return (error_free(data));
 	return (1);
 }
 
