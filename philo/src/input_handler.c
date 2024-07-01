@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/26 20:59:10 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/06/29 19:43:34 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,15 @@
 
 void	init_philo_forks(t_data *data, int i)
 {
-	t_fork	*fork_first;
-	t_fork	*fork_second;
-	int		philo_num;
-	int		philo_id;
+	t_philo	*philo;
 
-	fork_first = data->philo_array[i].fork_1;
-	fork_second = data->philo_array[i].fork_2;
-	philo_num = data->philo_num;
-	philo_id = data->philo_array[i].id_philo;
-	fork_first = &data->fork_array[(i + 1) % philo_num];
-	fork_second = &data->fork_array[i];
-	if (philo_id % 2 == 0)
+	philo = &data->philo_array[i];
+	philo->fork_1 = &data->fork_array[(i + 1) % data->philo_num];
+	philo->fork_2 = &data->fork_array[i];
+	if (philo->id_philo % 2 == 0)
 	{
-		fork_first = &data->fork_array[i];
-		fork_second = &data->fork_array[(i + 1) % philo_num];
+		philo->fork_1 = &data->fork_array[i];
+		philo->fork_2 = &data->fork_array[(i + 1) % data->philo_num];
 	}
 }
 
@@ -42,7 +36,7 @@ int	init_philo(t_data *data)
 		data->philo_array[i].id_philo = i + 1;
 		data->philo_array[i].is_finish_eating = 0;
 		data->philo_array[i].eat_counter = 0;
-		data->philo_array[i].last_eating = 0;
+		data->philo_array[i].time_last_eat = 0;
 		init_philo_forks(data, i);
 		if (!mutex_handler(&data->philo_array[i].lock_philo, INIT))
 			return (0);
@@ -84,6 +78,7 @@ int	init_data(int argc, char **argv, t_data *data)
 		return (free(data->philo_array), error_malloc());
 	data->end_program = 0;
 	data->start_ready = 0;
+	data->threads_counter = 0;
 	if (!mutex_handler(&data->lock_data, INIT))
 		return (error_free(data));
 	if (!mutex_handler(&data->lock_print, INIT))

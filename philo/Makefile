@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/06/25 17:48:52 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/06/29 21:24:12 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,11 +45,14 @@ L_CYAN		= \033[1;36m
 WHITE		= \033[1;37m
 RESET		= \033[0m
 
+#-fsanitize=address -fno-omit-frame-pointer
+
 # Variables
 NAME	= philo
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -g
-RM		= rm -f
+#LDFLAGS = -fsanitize=address
+# -fsanitize=thread
 RMDIR	= rm -rf
 
 # Source and Object files and directories
@@ -63,7 +66,8 @@ SRC			= $(SRC_DIR)/main.c \
 				$(SRC_DIR)/mutex_handler.c \
 				$(SRC_DIR)/value_handler.c \
 				$(SRC_DIR)/philo_run.c \
-				$(SRC_DIR)/philo_action.c
+				$(SRC_DIR)/philo_action.c \
+				$(SRC_DIR)/philo_utils.c
 OBJ_DIR		= obj
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
