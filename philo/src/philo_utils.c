@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:04:45 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/29 21:23:43 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:16:09 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,28 @@ long	get_time(t_time_def time_def)
 	return (-1);
 }
 
+long	cur_time_philo(t_philo *philo)
+{
+	long	result;
+
+	result = get_time(MILLISECONDS) - get_value_long(&philo->lock_philo,
+		&philo->time_last_eat);
+	if (result == -1)
+		return (0);
+	return (result);
+}
+
 int	ft_usleep(long time, t_data *data)
 {
 	long	start;
 	long	cur_time;
 	long	remain;
 
-	if (get_time(MICROSECONDS) == -1)
+	start = get_time(MICROSECONDS);
+	if (start == -1)
 		return (0);
 	else
 	{
-		start = get_time(MICROSECONDS);
 		while (get_time(MICROSECONDS) - start < time)
 		{
 			if (is_program_end(data))
@@ -83,17 +94,48 @@ int	is_philo_dead(t_philo *philo, t_data *data)
 {
 	long	time_cur;
 	long	time_die;
+	long	time_last_eat;
 
-	if (get_value_int(&philo->lock_philo, &philo->is_finish_eating))
+	if (get_value_int(&philo->lock_philo, &philo->philo_finish))
 		return (0);
 	time_cur = get_time(MILLISECONDS) - get_value_long(&philo->lock_philo, &philo->time_last_eat);
-	time_die = data->time_die / 1000;
-	if (time_cur > time_die)
+	pthread_mutex_lock(&philo->lock_philo);
+	time_last_eat = philo->time_last_eat;
+	pthread_mutex_unlock(&philo->lock_philo);
+	// pthread_mutex_lock(&data->lock_print);
+	// printf("philo [%d],  time_last_eat = %ld\n", philo->id_philo, time_last_eat);
+	// pthread_mutex_unlock(&data->lock_print);
+	// pthread_mutex_lock(&data->lock_print);
+	// printf("philo [%d],  time_cur = %ld\n", philo->id_philo, time_cur);
+	// pthread_mutex_unlock(&data->lock_print);
+	// pthread_mutex_lock(&data->lock_print);
+	// printf("philo [%d],  time_cur = %ld\n", philo->id_philo, time_cur);
+	// pthread_mutex_unlock(&data->lock_print);
+	time_die = (long)(data->time_die / 1000);
+	// pthread_mutex_lock(&data->lock_print);
+	// printf("philo [%d],  time_die = %ld\n", philo->id_philo, time_die);
+	// pthread_mutex_unlock(&data->lock_print);
+	if (time_cur >= time_die)
 		return (1);
 	return (0);
 }
 
-// void cleanup()
-// {
+int	cleanup(t_data *data)
+{
+	int	i;
 
-// }
+	i = 0;
+	while (i < data->philo_num)
+	{
+		if (!mutex_handler(&data->philo_array[i].lock_philo, DESTROY))
+			return (0);
+		i++;
+	}
+	if (!mutex_handler(&data->lock_data, DESTROY))
+		return (0);
+	if (!mutex_handler(&data->lock_print, DESTROY))
+		return (0);
+	free(data->philo_array);
+	free(data->fork_array);
+	return (1);
+}

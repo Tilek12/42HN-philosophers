@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/06/29 21:24:12 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/07/01 18:34:53 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,95 +78,18 @@ HEADER  = $(INCLUDE_DIR)/philo.h
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@printf "$(L_YELLOW)Linking $@ $(RESET)"
-	@{ \
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME) & pid=$$!; \
-	spin='-\|/'; \
-	i=0; \
-	while kill -0 $$pid 2>/dev/null; do \
-		i=$$(( (i+1) % 4 )); \
-		printf "\r$(L_YELLOW)Linking $@ $(RESET)[%c]" "$${spin:$${i}:1}"; \
-		sleep 0.1; \
-	done; \
-	wait $$pid; \
-	if [ $$? -ne 0 ]; then \
-		printf "\r$(YELLOW)Linking $@  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
-		exit 1; \
-	else \
-		printf "\r$(YELLOW)Linking $@  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
-		printf "$(L_GREEN)"; printf "$$IMG"; printf "$(RESET)\n"; \
-	fi; \
-	}
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADER)
 	@mkdir -p $(OBJ_DIR)
-	@printf "$(L_YELLOW)Compiling $< $(RESET)"
-	@{ \
-	$(CC) $(CFLAGS) -c $< -o $@ & pid=$$!; \
-	spin='-\|/'; \
-	i=0; \
-	while kill -0 $$pid 2>/dev/null; do \
-		i=$$(( (i+1) % 4 )); \
-		printf "\r$(L_YELLOW)Compiling $< $(RESET)[%c]" "$${spin:$${i}:1}"; \
-		sleep 0.1; \
-	done; \
-	wait $$pid; \
-	if [ $$? -ne 0 ]; then \
-		printf "\r$(YELLOW)Compiling $<  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
-		exit 1; \
-	else \
-		printf "\r$(YELLOW)Compiling $<  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
-	fi; \
-	}
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@printf "$(L_CYAN)Cleaning object files and directories $(RESET)"
-	@if [ -d $(OBJ_DIR) ]; then \
-	{ \
-	$(RM) $(OBJ_DIR)/*.o & pid=$$!; \
-	spin='-\|/'; \
-	i=0; \
-	while kill -0 $$pid 2>/dev/null; do \
-		i=$$(( (i+1) % 4 )); \
-		printf "\r$(L_CYAN)Cleaning object files and directories $(RESET)[%c]" "$${spin:$${i}:1}"; \
-		sleep 0.1; \
-	done; \
-	wait $$pid; \
-	if [ $$? -ne 0 ]; then \
-		printf "\r$(CYAN)Cleaning object files and directories  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
-		exit 1; \
-	else \
-		printf "\r$(CYAN)Cleaning object files and directories  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
-	fi; \
-	$(RMDIR) $(OBJ_DIR); \
-	}; \
-	else \
-		printf "\r$(L_MAGENTA)-- No object files or directories to clean --$(RESET)\n"; \
-	fi;
+	$(RM) $(OBJ_DIR)/*.o
+	$(RMDIR) $(OBJ_DIR)
 
 fclean: clean
-	@printf "$(L_CYAN)Cleaning executable files $(RESET)"
-	@if [ -e $(NAME) ]; then \
-	{ \
-	$(RM) $(NAME) & pid=$$!; \
-	spin='-\|/'; \
-	i=0; \
-	while kill -0 $$pid 2>/dev/null; do \
-		i=$$(( (i+1) % 4 )); \
-		printf "\r$(L_CYAN)Cleaning executable files $(RESET)[%c]" "$${spin:$${i}:1}"; \
-		sleep 0.1; \
-	done; \
-	wait $$pid; \
-	if [ $$? -ne 0 ]; then \
-		printf "\r$(CYAN)Cleaning executable files  $(RESET)❌$(RED)[failed]$(RESET)\n"; \
-		exit 1; \
-	else \
-		printf "\r$(CYAN)Cleaning executable files  $(RESET)✅$(GREEN)[done]$(RESET)\n"; \
-	fi; \
-	}; \
-	else \
-		printf "\r$(L_MAGENTA)------- No executable files to clean --------$(RESET)\n"; \
-	fi;
+	$(RM) $(NAME)
 
 re: fclean all
 
