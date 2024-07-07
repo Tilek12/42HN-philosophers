@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/03 19:40:29 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:08:24 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	init_philo(t_data *data)
 		data->philo_array[i].eat_counter = 0;
 		data->philo_array[i].time_last_eat = get_time(MILLISECONDS);
 		init_philo_forks(data, i);
-		if (!mutex_handler(&data->philo_array[i].lock_philo, INIT))
+		if (!mutex_handler(&data->philo_array[i].eat_counter_mtx, INIT)
+			|| !mutex_handler(&data->philo_array[i].time_last_eat_mtx, INIT)
+			|| !mutex_handler(&data->philo_array[i].philo_finish_mtx, INIT))
 			return (0);
 		i++;
 	}
@@ -81,13 +83,15 @@ int	init_data(int argc, char **argv, t_data *data)
 	data->start_time = 0;
 	data->threads_counter = 0;
 	data->philos_finish = 0;
-	if (!mutex_handler(&data->lock_data, INIT))
+	if (!mutex_handler(&data->data_mtx, INIT)
+		|| !mutex_handler(&data->print_mtx, INIT)
+		|| !mutex_handler(&data->start_ready_mtx, INIT)
+		|| !mutex_handler(&data->start_time_mtx, INIT)
+		|| !mutex_handler(&data->threads_counter_mtx, INIT)
+		|| !mutex_handler(&data->philos_finish_mtx, INIT)
+		|| !mutex_handler(&data->end_program_mtx, INIT))
 		return (error_free(data));
-	if (!mutex_handler(&data->lock_print, INIT))
-		return (error_free(data));
-	if (!init_fork(data))
-		return (error_free(data));
-	if (!init_philo(data))
+	if (!init_fork(data) || !init_philo(data))
 		return (error_free(data));
 	return (1);
 }
@@ -136,15 +140,7 @@ int	input_handler(int argc, char **argv, t_data *data)
 	}
 	else
 	{
-		// printf(R"\t🚧🚧🚧🚧🚧 🚨🚨🚨 Incorrect Input!!! 🚨🚨🚨 🚧🚧🚧🚧🚧\n"RES);
-		// printf(R"\t🚧🚧🚧  🚨 Include only positive numbers!!! 🚨  🚧🚧🚧\n\n"RES);
-		// printf(G"Please, follow the rules:\n\n"RES);
-		// printf(Y"\"./philo <number_of_philosophers> <time_to_die> ");
-		// printf("<time_to_eat> <time_to_sleep> ");
-		// printf("[number_of_times_each_philosopher_must_eat]\"\n"RES);
-		// printf(C"[The last argument is optional]\n\n"RES);
-		// printf(G"For example: \"./philo 5 800 200 200 5\"\n"RES);
-		printf("!!! Wrong input !!!");
+		printf("!!! Incorrect input !!!\n");
 		return (0);
 	}
 }

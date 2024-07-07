@@ -6,7 +6,7 @@
 #    By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 13:26:27 by tkubanyc          #+#    #+#              #
-#    Updated: 2024/07/01 18:34:53 by tkubanyc         ###   ########.fr        #
+#    Updated: 2024/07/05 16:36:09 by tkubanyc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,9 +65,11 @@ SRC			= $(SRC_DIR)/main.c \
 				$(SRC_DIR)/thread_handler.c \
 				$(SRC_DIR)/mutex_handler.c \
 				$(SRC_DIR)/value_handler.c \
-				$(SRC_DIR)/philo_run.c \
+				$(SRC_DIR)/philo_simulation.c \
+				$(SRC_DIR)/philo_routines.c \
 				$(SRC_DIR)/philo_action.c \
-				$(SRC_DIR)/philo_utils.c
+				$(SRC_DIR)/philo_utils.c \
+				$(SRC_DIR)/philo_end_checker.c
 OBJ_DIR		= obj
 OBJ			= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 

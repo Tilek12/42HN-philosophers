@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:47:06 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/02 16:02:55 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:00:54 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 
 	if (!input_handler(argc, argv, &data))
 		return (EXIT_FAILURE);
-	if (!philo_start(&data))
+	if (!philo_simulation(&data))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 14:53:21 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/04 19:15:58 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:22:48 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ int	set_value_long(pthread_mutex_t *mutex, long *variable, long value)
 	return (1);
 }
 
-int	is_program_end(t_data *data)
+int	increase_value(pthread_mutex_t *mutex, int *value)
 {
-	if (get_value_int(&data->lock_data, &data->end_program) == -1)
-		return (-1);
-	else if (get_value_int(&data->lock_data, &data->end_program) == 0)
+	if (!mutex_handler(mutex, LOCK))
 		return (0);
-	else if (get_value_int(&data->lock_data, &data->end_program) == 1)
-		return (1);
-	else
-		return (-1);
+	(*value)++;
+	if (!mutex_handler(mutex, UNLOCK))
+		return (0);
+	return (1);
 }

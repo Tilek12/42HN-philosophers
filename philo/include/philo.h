@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/04 19:18:11 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:31:12 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,24 @@ typedef struct s_fork
 	int				fork_id;
 }				t_fork;
 
-// typedef	struct s_data	t_data;
-
 typedef struct s_philo
 {
-	pthread_mutex_t	lock_philo;
 	pthread_t		id_thread;
 	int				id_philo;
 	t_fork			*fork_1;
 	t_fork			*fork_2;
 	int				eat_counter;
+	pthread_mutex_t	eat_counter_mtx;
 	long			time_last_eat;
+	pthread_mutex_t	time_last_eat_mtx;
 	int				philo_finish;
-	// t_data			*data;
+	pthread_mutex_t	philo_finish_mtx;
 }				t_philo;
 
 typedef struct s_data
 {
-	pthread_mutex_t	lock_data;
-	pthread_mutex_t	lock_print;
+	pthread_mutex_t	data_mtx;
+	pthread_mutex_t	print_mtx;
 	pthread_t		watcher;
 	t_fork			*fork_array;
 	t_philo			*philo_array;
@@ -93,15 +92,20 @@ typedef struct s_data
 	int				time_sleep;
 	int				eat_repeat;
 	int				start_ready;
+	pthread_mutex_t	start_ready_mtx;
 	long			start_time;
+	pthread_mutex_t	start_time_mtx;
 	int				threads_counter;
+	pthread_mutex_t	threads_counter_mtx;
 	int				philos_finish;
+	pthread_mutex_t	philos_finish_mtx;
 	int				end_program;
+	pthread_mutex_t	end_program_mtx;
 }				t_data;
 
 typedef struct s_thread_data
 {
-	pthread_mutex_t	lock_td;
+	pthread_mutex_t	td_mtx;
 	t_data			*data;
 	t_philo			*philos;
 	int				i;
@@ -118,27 +122,35 @@ int		mutex_handler(pthread_mutex_t *mutex, t_option option);
 int		thread_handler(pthread_t *thread, void *(*func)(void *),
 		void *param, t_option option);
 int		error_free(t_data *data);
+int		error_free_all(t_data *data, t_thread_data *thread_data);
 int		error_malloc(void);
 int		get_value_int(pthread_mutex_t *mutex, int *value);
 long	get_value_long(pthread_mutex_t *mutex, long *value);
 int		set_value_int(pthread_mutex_t *mutex, int *variable, int value);
 int		set_value_long(pthread_mutex_t *mutex, long *variable, long value);
-int		is_program_end(t_data *data);
-int		philo_start(t_data *data);
-void	*one_philo(void *param);
-void	*philo_run(void *param);
-void	*death_watcher(void *param);
+int		philo_simulation(t_data *data);
+int		create_thread_data(t_thread_data *td, t_data *data);
+int		create_threads(t_thread_data *td, t_data *data);
+int		join_threads(t_data *data);
+int		init_routine_data(t_thread_data *td, t_data **data, t_philo **philo);
+void	*routine_general(void *param);
+void	*routine_watcher(void *param);
+void	*routine_one_philo(void *param);
 long	get_time(t_time_def time_def);
-long	cur_time_philo(t_philo *philo);
+long	life_time_philo(t_philo *philo);
+long	life_time_program(t_data *data);
 int		ft_usleep(long time, t_data *data);
 int		increase_value(pthread_mutex_t *mutex, int *value);
 int		threads_ready(pthread_mutex_t *mutex, t_data *data);
-int		is_philo_dead(t_philo *philo, t_data *data);
 int		print_action(t_action action, t_philo *philo, t_data *data);
 int		eating(t_philo *philo, t_data *data);
 int		sleeping(t_philo *philo, t_data *data);
 int		thinking(t_philo *philo, t_data *data);
 int		over_thinking(t_philo *philo, t_data *data);
-int		cleanup(t_data *data);
+int		is_philo_dead(t_philo *philo, t_data *data);
+int		is_philo_finish(t_philo *philo, t_data *data);
+int		is_all_finish(t_data *data);
+int		is_program_end(t_data *data);
+int		cleanup(t_data *data, t_thread_data *thread_data);
 
 #endif
