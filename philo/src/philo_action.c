@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 12:36:03 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/07 19:32:42 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:15:34 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	print_action(t_action action, t_philo *philo, t_data *data)
 	time_program = life_time_program(data);
 	if (action == DIE)
 		printf("%ld %d died\n", time_program, philo->id_philo);
-	if (action == TAKE_FORK && !is_program_end(data))
+	else if (action == TAKE_FORK && !is_program_end(data))
 		printf("%ld %d has taken a fork\n", time_program, philo->id_philo);
 	else if (action == EAT && !is_program_end(data))
 		printf("%ld %d is eating\n", time_program, philo->id_philo);
@@ -66,7 +66,7 @@ int	eating(t_philo *philo, t_data *data)
 		|| !print_action(TAKE_FORK, philo, data))
 		return (0);
 	if (!set_value_long(&philo->time_last_eat_mtx, &philo->time_last_eat,
-		get_time(MILLISECONDS)))
+			get_time(MILLISECONDS)))
 		return (0);
 	if (!print_action(EAT, philo, data)
 		|| !ft_usleep((long)data->time_eat, data)
@@ -78,10 +78,8 @@ int	eating(t_philo *philo, t_data *data)
 			|| !increase_value(&data->philos_finish_mtx, &data->philos_finish))
 			return (0);
 		if (is_all_finish(data))
-		{
 			if (!set_value_int(&data->end_program_mtx, &data->end_program, 1))
 				return (0);
-		}
 	}
 	if (!mutex_handler(&philo->fork_1->fork, UNLOCK)
 		|| !mutex_handler(&philo->fork_2->fork, UNLOCK))
@@ -103,17 +101,18 @@ int	thinking(t_philo *philo, t_data *data)
 	long	time_eat;
 	long	time_sleep;
 	long	time_think;
+	long	time_die;
 
 	if (!print_action(THINK, philo, data))
 		return (0);
-	if (data->philo_num % 2 == 0)
-		return (1);
 	time_eat = (long)data->time_eat;
 	time_sleep = (long)data->time_sleep;
-	time_think = time_eat * 2 - time_sleep;
-	if (time_think < 0)
-		time_think = 0;
-	ft_usleep((time_think * 0.5), data);
+	time_die = (long)data->time_die;
+	time_think = time_die - time_eat - time_sleep;
+	if (time_think <= 0)
+		return (1);
+	else
+		ft_usleep((time_think * 0.5), data);
 	return (1);
 }
 
@@ -123,7 +122,8 @@ int	over_thinking(t_philo *philo, t_data *data)
 	{
 		if (philo->id_philo % 2 == 0)
 		{
-			if (!thinking(philo, data) || !ft_usleep(100, data))
+			if (!print_action(THINK, philo, data)
+				|| !ft_usleep(data->time_eat * 0.5, data))
 				return (0);
 		}
 	}
@@ -131,7 +131,7 @@ int	over_thinking(t_philo *philo, t_data *data)
 	{
 		if (philo->id_philo % 2)
 		{
-			if (!thinking(philo, data))
+			if (!print_action(THINK, philo, data))
 				return (0);
 		}
 	}

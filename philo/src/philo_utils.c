@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:04:45 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/07 13:35:54 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:19:48 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ long	get_time(t_time_def time_def)
 
 long	life_time_philo(t_philo *philo)
 {
-	return (get_time(MILLISECONDS) - get_value_long(&philo->time_last_eat_mtx,
+	return (get_time(MILLISECONDS) - get_value_long(&philo->time_last_eat_mtx, \
 		&philo->time_last_eat));
 }
 
 long	life_time_program(t_data *data)
 {
-	return (get_time(MILLISECONDS) - get_value_long(&data->start_time_mtx,
+	return (get_time(MILLISECONDS) - get_value_long(&data->start_time_mtx, \
 		&data->start_time));
 }
 

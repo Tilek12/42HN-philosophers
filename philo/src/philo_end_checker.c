@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:32:06 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/07 13:30:47 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:17:51 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	is_all_finish(t_data *data)
 	int	philos_finish;
 	int	philo_num;
 
-	philos_finish = get_value_int(&data->philos_finish_mtx,
+	philos_finish = get_value_int(&data->philos_finish_mtx, \
 									&data->philos_finish);
 	if (philos_finish == -1)
 		return (-1);

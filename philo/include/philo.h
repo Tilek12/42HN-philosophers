@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/07 19:31:12 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:45:04 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,15 +112,15 @@ typedef struct s_thread_data
 }				t_thread_data;
 
 int		input_handler(int argc, char **argv, t_data *data);
-int		init_data(int argc, char **argv, t_data *data);
+int		init_data(t_data *data);
 int		init_fork(t_data *data);
 int		init_philo(t_data *data);
 void	init_philo_forks(t_data *data, int i);
 int		ft_atoi(char *str);
 int		is_correct_input(char **str);
 int		mutex_handler(pthread_mutex_t *mutex, t_option option);
-int		thread_handler(pthread_t *thread, void *(*func)(void *),
-		void *param, t_option option);
+int		thread_handler(pthread_t *thread, void *(*func)(void *), \
+			void *param, t_option option);
 int		error_free(t_data *data);
 int		error_free_all(t_data *data, t_thread_data *thread_data);
 int		error_malloc(void);
@@ -129,11 +129,10 @@ long	get_value_long(pthread_mutex_t *mutex, long *value);
 int		set_value_int(pthread_mutex_t *mutex, int *variable, int value);
 int		set_value_long(pthread_mutex_t *mutex, long *variable, long value);
 int		philo_simulation(t_data *data);
-int		create_thread_data(t_thread_data *td, t_data *data);
 int		create_threads(t_thread_data *td, t_data *data);
 int		join_threads(t_data *data);
 int		init_routine_data(t_thread_data *td, t_data **data, t_philo **philo);
-void	*routine_general(void *param);
+void	*routine_main(void *param);
 void	*routine_watcher(void *param);
 void	*routine_one_philo(void *param);
 long	get_time(t_time_def time_def);
