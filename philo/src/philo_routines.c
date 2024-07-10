@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:48:57 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 16:54:48 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:52:26 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	*routine_philo(void *param)
 
 /*--------------------------------------------------------------*/
 /*  Watcher routine function of thread for searching errors,    */
-/*  dead philosophers and stop the simulation if all             */
+/*  dead philosophers and stop the simulation if all            */
 /*  philosophers ate number_of_times_each_philosopher_must_eat  */
 /*--------------------------------------------------------------*/
 void	*routine_watcher(void *param)

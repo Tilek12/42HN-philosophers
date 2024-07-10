@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 10:20:39 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 16:55:07 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:28:17 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,15 @@ int	philo_simulation(t_data *data)
 	else
 	{
 		if (!create_threads(data, &td))
-			return (error_free_all(data, td));
+			return (error_free_all(data, &td));
 	}
 	if (!thread_handler(&data->watcher, routine_watcher, data, CREATE)
 		|| !set_start_time(data)
 		|| !join_threads(data)
 		|| !set_value_int(&data->finish_mtx, &data->finish, 1))
-		return (error_free_all(data, td));
+		return (error_free_all(data, &td));
 	result = error_check(data);
-	if (!cleanup(data, td))
-		return (error_free_all(data, td));
+	if (!cleanup(data, &td))
+		return (error_free_all(data, &td));
 	return (result);
 }

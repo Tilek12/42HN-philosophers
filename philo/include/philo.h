@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 17:43:53 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:15:41 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int		thread_handler(pthread_t *thread, void *(*func)(void *), \
 int		error(char *msg);
 int		error_malloc(void);
 int		error_free(t_data *data);
-int		error_free_all(t_data *data, t_thread_data *thread_data);
+int		error_free_all(t_data *data, t_thread_data **thread_data);
 int		error_check(t_data *data);
 int		get_value_int(pthread_mutex_t *mutex, int *value);
 long	get_value_long(pthread_mutex_t *mutex, long *value);
@@ -156,6 +156,6 @@ int		is_philo_dead(t_philo *philo, t_data *data);
 int		is_philo_finish(t_philo *philo, t_data *data);
 int		is_all_finish(t_data *data);
 int		is_program_end(t_data *data);
-int		cleanup(t_data *data, t_thread_data *td);
+int		cleanup(t_data *data, t_thread_data **td);
 
 #endif

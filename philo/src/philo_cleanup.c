@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 19:19:50 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 16:17:57 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:08:19 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 /*-----------------------------------*/
 /*  Destroy all initialized mutexes  */
 /*-----------------------------------*/
-static int	destroy_mutex(t_data *data, t_thread_data *td)
+static int	destroy_mutex(t_data *data, t_thread_data **td)
 {
 	int	i;
 
-	if (td != NULL)
-		if (!mutex_handler(&td->td_mtx, DESTROY))
+	if (*td != NULL)
+		if (!mutex_handler(&(*td)->td_mtx, DESTROY))
 			return (0);
 	i = 0;
 	while (i < data->philo_num)
@@ -46,13 +46,24 @@ static int	destroy_mutex(t_data *data, t_thread_data *td)
 /*---------------------------------------------------*/
 /*  Cleanup all data after finishing the simulation  */
 /*---------------------------------------------------*/
-int	cleanup(t_data *data, t_thread_data *td)
+int	cleanup(t_data *data, t_thread_data **td)
 {
 	if (!destroy_mutex(data, td))
 		return (0);
-	if (td != NULL)
-		free(td);
-	free(data->philo_array);
-	free(data->fork_array);
+	if (*td != NULL)
+	{
+		free(*td);
+		*td = NULL;
+	}
+	if (data->philo_array != NULL)
+	{
+		free(data->philo_array);
+		data->philo_array = NULL;
+	}
+	if (data->fork_array != NULL)
+	{
+		free(data->fork_array);
+		data->fork_array = NULL;
+	}
 	return (1);
 }

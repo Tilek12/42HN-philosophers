@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 17:46:58 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:01:02 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ void	init_philo_forks(t_data *data, int i)
 /*-------------------------------------------------------------*/
 int	init_philo(t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < data->philo_num)
 	{
 		data->philo_array[i].id_philo = i + 1;
-		data->philo_array[i].philo_finish = 0;
 		data->philo_array[i].eat_counter = 0;
 		data->philo_array[i].time_last_eat = 0;
+		data->philo_array[i].philo_finish = 0;
 		data->philo_array[i].is_error = 0;
 		init_philo_forks(data, i);
 		if (!mutex_handler(&data->philo_array[i].eat_counter_mtx, INIT)
@@ -83,12 +83,12 @@ int	init_data(t_data *data)
 		return (error_malloc());
 	data->fork_array = (t_fork *)malloc(sizeof(t_fork) * data->philo_num);
 	if (data->fork_array == NULL)
-		return (free(data->philo_array), error_malloc());
-	data->finish = 0;
+		return (error_malloc());
 	data->start_ready = 0;
 	data->start_time = 0;
 	data->threads_counter = 0;
 	data->philos_finish = 0;
+	data->finish = 0;
 	if (!mutex_handler(&data->data_mtx, INIT)
 		|| !mutex_handler(&data->print_mtx, INIT)
 		|| !mutex_handler(&data->start_ready_mtx, INIT)
@@ -96,8 +96,9 @@ int	init_data(t_data *data)
 		|| !mutex_handler(&data->threads_counter_mtx, INIT)
 		|| !mutex_handler(&data->philos_finish_mtx, INIT)
 		|| !mutex_handler(&data->finish_mtx, INIT))
-		return (error_free(data));
-	if (!init_fork(data) || !init_philo(data))
+		return (0);
+	if (!init_fork(data)
+		|| !init_philo(data))
 		return (0);
 	return (1);
 }
@@ -115,7 +116,7 @@ int	input_handler(int argc, char **argv, t_data *data)
 			data->eat_repeat = -1;
 		data->philo_num = ft_atoi(argv[1]);
 		if (data->eat_repeat == 0 || data->philo_num == 0)
-			return (1);
+			return (0);
 		data->time_die = ft_atoi(argv[2]) * 1000;
 		data->time_eat = ft_atoi(argv[3]) * 1000;
 		data->time_sleep = ft_atoi(argv[4]) * 1000;

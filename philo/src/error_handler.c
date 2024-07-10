@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 11:27:53 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 15:40:28 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:08:05 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,38 @@ int	error_malloc(void)
 int	error_free(t_data *data)
 {
 	if (data->philo_array != NULL)
+	{
 		free(data->philo_array);
+		data->philo_array = NULL;
+	}
 	if (data->fork_array != NULL)
+	{
 		free(data->fork_array);
+		data->fork_array = NULL;
+	}
 	return (0);
 }
 
 /*----------------------------------------------*/
 /*  In case of error free all allocated memory  */
 /*----------------------------------------------*/
-int	error_free_all(t_data *data, t_thread_data *thread_data)
+int	error_free_all(t_data *data, t_thread_data **thread_data)
 {
+	if (*thread_data != NULL)
+	{
+		free(*thread_data);
+		*thread_data = NULL;
+	}
 	if (data->philo_array != NULL)
+	{
 		free(data->philo_array);
+		data->philo_array = NULL;
+	}
 	if (data->fork_array != NULL)
+	{
 		free(data->fork_array);
-	if (thread_data != NULL)
-		free(thread_data);
+		data->fork_array = NULL;
+	}
 	return (0);
 }
 
