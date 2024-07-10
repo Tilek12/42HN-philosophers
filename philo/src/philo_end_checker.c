@@ -6,12 +6,23 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:32:06 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/08 16:17:51 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:42:11 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
+/*--------------------------------------------------------------------------*/
+/*  Check if certain philo has error in running routine function of thread  */
+/*--------------------------------------------------------------------------*/
+int	is_philo_error(t_philo *philo)
+{
+	return (get_value_int(&philo->is_error_mtx, &philo->is_error));
+}
+
+/*----------------------------------*/
+/*  Check if certain philo is dead  */
+/*----------------------------------*/
 int	is_philo_dead(t_philo *philo, t_data *data)
 {
 	long	time_life;
@@ -26,6 +37,9 @@ int	is_philo_dead(t_philo *philo, t_data *data)
 	return (0);
 }
 
+/*------------------------------------------------------------------------*/
+/*  Check if certain philo ate number_of_times_each_philosopher_must_eat  */
+/*------------------------------------------------------------------------*/
 int	is_philo_finish(t_philo *philo, t_data *data)
 {
 	int	eat_counter;
@@ -40,6 +54,9 @@ int	is_philo_finish(t_philo *philo, t_data *data)
 	return (0);
 }
 
+/*---------------------------------------------------------------------------*/
+/*  Check if all philosophers ate number_of_times_each_philosopher_must_eat  */
+/*---------------------------------------------------------------------------*/
 int	is_all_finish(t_data *data)
 {
 	int	philos_finish;
@@ -55,7 +72,11 @@ int	is_all_finish(t_data *data)
 	return (0);
 }
 
+/*-------------------------------------------------------*/
+/*  Get the value of finish variable in data structure.  */
+/*  Value equals to 1 means the end of the simulation.   */
+/*-------------------------------------------------------*/
 int	is_program_end(t_data *data)
 {
-	return (get_value_int(&data->end_program_mtx, &data->end_program));
+	return (get_value_int(&data->finish_mtx, &data->finish));
 }

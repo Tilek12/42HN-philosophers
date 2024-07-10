@@ -6,12 +6,15 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/08 15:51:39 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:46:58 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
+/*-------------------------------*/
+/*  Define forks for each philo  */
+/*-------------------------------*/
 void	init_philo_forks(t_data *data, int i)
 {
 	t_philo	*philo;
@@ -26,6 +29,9 @@ void	init_philo_forks(t_data *data, int i)
 	}
 }
 
+/*-------------------------------------------------------------*/
+/*  Create data for each philo and mutexes inside philo_array  */
+/*-------------------------------------------------------------*/
 int	init_philo(t_data *data)
 {
 	int		i;
@@ -37,16 +43,21 @@ int	init_philo(t_data *data)
 		data->philo_array[i].philo_finish = 0;
 		data->philo_array[i].eat_counter = 0;
 		data->philo_array[i].time_last_eat = 0;
+		data->philo_array[i].is_error = 0;
 		init_philo_forks(data, i);
 		if (!mutex_handler(&data->philo_array[i].eat_counter_mtx, INIT)
 			|| !mutex_handler(&data->philo_array[i].time_last_eat_mtx, INIT)
-			|| !mutex_handler(&data->philo_array[i].philo_finish_mtx, INIT))
+			|| !mutex_handler(&data->philo_array[i].philo_finish_mtx, INIT)
+			|| !mutex_handler(&data->philo_array[i].is_error_mtx, INIT))
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
+/*-----------------------------------------------------------*/
+/*  Create data for each fork and mutexes inside fork_array  */
+/*-----------------------------------------------------------*/
 int	init_fork(t_data *data)
 {
 	int	i;
@@ -62,6 +73,9 @@ int	init_fork(t_data *data)
 	return (1);
 }
 
+/*------------------------------------------------*/
+/*  Create data structure with input information  */
+/*------------------------------------------------*/
 int	init_data(t_data *data)
 {
 	data->philo_array = (t_philo *)malloc(sizeof(t_philo) * data->philo_num);
@@ -70,7 +84,7 @@ int	init_data(t_data *data)
 	data->fork_array = (t_fork *)malloc(sizeof(t_fork) * data->philo_num);
 	if (data->fork_array == NULL)
 		return (free(data->philo_array), error_malloc());
-	data->end_program = 0;
+	data->finish = 0;
 	data->start_ready = 0;
 	data->start_time = 0;
 	data->threads_counter = 0;
@@ -81,13 +95,16 @@ int	init_data(t_data *data)
 		|| !mutex_handler(&data->start_time_mtx, INIT)
 		|| !mutex_handler(&data->threads_counter_mtx, INIT)
 		|| !mutex_handler(&data->philos_finish_mtx, INIT)
-		|| !mutex_handler(&data->end_program_mtx, INIT))
+		|| !mutex_handler(&data->finish_mtx, INIT))
 		return (error_free(data));
 	if (!init_fork(data) || !init_philo(data))
-		return (error_free(data));
+		return (0);
 	return (1);
 }
 
+/*----------------------------*/
+/*  Handle input information  */
+/*----------------------------*/
 int	input_handler(int argc, char **argv, t_data *data)
 {
 	if ((argc == 6 || argc == 5) && is_correct_input(argv + 1))
@@ -103,35 +120,16 @@ int	input_handler(int argc, char **argv, t_data *data)
 		data->time_eat = ft_atoi(argv[3]) * 1000;
 		data->time_sleep = ft_atoi(argv[4]) * 1000;
 		if (!init_data(data))
-			return (0);
+			return (error_free(data));
 		return (1);
 	}
 	else
 	{
-		printf("!!! Incorrect input !!!\n");
+		printf("\n\t------- !!! Incorrect Input!!! -------\n\n");
+		printf("Please, follow the rules:\n\n");
+		printf("./philo <number_of_philosophers> <time_to_die> <time_to_eat>");
+		printf(" <time_to_sleep> [number_of_times_philosopher_must_eat]\n\n");
+		printf("For example: \"./philo 5 800 200 200 5\"\n\n");
 		return (0);
 	}
 }
-
-// int	input_handler(int argc, char **argv, t_data *data, t_philo *philo_array)
-// {
-// 	if ((argc == 6 || argc == 5) && is_correct_input(argv + 1))
-// 	{
-// 		if (!init_data(argc, argv, data, *philo_array))
-// 			return (0);
-// 		return (1);
-// 	}
-// 	else
-// 	{
-// 		// printf(R"\t🚧🚧🚧🚧🚧 🚨🚨🚨 Incorrect Input!!! 🚨🚨🚨 🚧🚧🚧🚧🚧\n"RES);
-// 		// printf(R"\t🚧🚧🚧  🚨 Include only positive numbers!!! 🚨  🚧🚧🚧\n\n"RES);
-// 		// printf(G"Please, follow the rules:\n\n"RES);
-// 		// printf(Y"\"./philo <number_of_philosophers> <time_to_die> ");
-// 		// printf("<time_to_eat> <time_to_sleep> ");
-// 		// printf("[number_of_times_each_philosopher_must_eat]\"\n"RES);
-// 		// printf(C"[The last argument is optional]\n\n"RES);
-// 		// printf(G"For example: \"./philo 5 800 200 200 5\"\n"RES);
-// 		printf("!!! Wrong input !!!");
-// 		return (0);
-// 	}
-// }

@@ -6,16 +6,16 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:44:03 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/06/18 12:07:20 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:42:09 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-/*------------------------------------------------------*/
-/*  Checks if the character is a new line, space, tab,  */
-/*  the start or the end of line.                       */
-/*------------------------------------------------------*/
+/*-----------------------------------------------------*/
+/*  Check if the character is a new line, space, tab,  */
+/*  the start or the end of line.                      */
+/*-----------------------------------------------------*/
 static int	is_space(char c)
 {
 	if (c == ' ' || c == '\f' || c == '\n' || c == '\r'
@@ -25,9 +25,9 @@ static int	is_space(char c)
 		return (0);
 }
 
-/*------------------------------------------*/
-/*  Checks if the the character is a digit  */
-/*------------------------------------------*/
+/*-----------------------------------------*/
+/*  Check if the the character is a digit  */
+/*-----------------------------------------*/
 static int	is_digit(char c)
 {
 	if (c >= '0' && c <= '9')
@@ -36,9 +36,9 @@ static int	is_digit(char c)
 		return (0);
 }
 
-/*-----------------------------*/
-/*  Changes string to integer  */
-/*-----------------------------*/
+/*----------------------------*/
+/*  Change string to integer  */
+/*----------------------------*/
 int	ft_atoi(char *str)
 {
 	int		i;
@@ -64,9 +64,9 @@ int	ft_atoi(char *str)
 		return (result);
 }
 
-/*-----------------------------------------------*/
-/*  Checks if the only spaces are in the string  */
-/*-----------------------------------------------*/
+/*----------------------------------------------*/
+/*  Check if the only spaces are in the string  */
+/*----------------------------------------------*/
 static int	is_spaces_only(char *str)
 {
 	int	i;
@@ -81,6 +81,9 @@ static int	is_spaces_only(char *str)
 	return (1);
 }
 
+/*---------------------------------------------*/
+/*  Check if the input information is correct  */
+/*---------------------------------------------*/
 int	is_correct_input(char **str)
 {
 	int	i;
