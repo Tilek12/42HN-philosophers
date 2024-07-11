@@ -100,3 +100,4 @@ with a mutex for each of them.
 
 This [Philosophers Visualizer](https://nafuka11.github.io/philosophers-visualizer/) was used to show the simulation of the program.
 
+![Philosophers Visualizer pic](https://github.com/Tilek12/42HN-philosophers/blob/master/philo/.git_docs_philosophers/philo_visualizer.png)
