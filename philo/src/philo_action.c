@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 12:36:03 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 22:49:58 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:23:59 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ int	print_action(t_action action, t_philo *philo, t_data *data)
 		return (0);
 	time_program = life_time_program(data);
 	if (action == DIE)
-		printf("%ld %d died\n", time_program, philo->id_philo);
+		printf(R"%ld %d died\n"RES, time_program, philo->id_philo);
 	else if (action == TAKE_FORK && !is_program_end(data))
-		printf("%ld %d has taken a fork\n", time_program, philo->id_philo);
+		printf(M"%ld %d has taken a fork\n"RES, time_program, philo->id_philo);
 	else if (action == EAT && !is_program_end(data))
-		printf("%ld %d is eating\n", time_program, philo->id_philo);
+		printf(C"%ld %d is eating\n"RES, time_program, philo->id_philo);
 	else if (action == SLEEP && !is_program_end(data))
-		printf("%ld %d is sleeping\n", time_program, philo->id_philo);
+		printf(G"%ld %d is sleeping\n"RES, time_program, philo->id_philo);
 	else if (action == THINK && !is_program_end(data))
-		printf("%ld %d is thinking\n", time_program, philo->id_philo);
+		printf(Y"%ld %d is thinking\n"RES, time_program, philo->id_philo);
 	if (!mutex_handler(&data->print_mtx, UNLOCK))
 		return (0);
 	return (1);

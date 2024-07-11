@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 12:48:15 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 21:15:41 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:23:10 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@
 # include <sys/errno.h>
 # include <pthread.h>
 # include <sys/time.h>
+
+/*---------------*/
+/*  Text colors  */
+/*---------------*/
+# define RES "\033[0m"
+# define R "\033[31m"
+# define G "\033[32m"
+# define Y "\033[33m"
+# define B "\033[34m"
+# define M "\033[35m"
+# define C "\033[36m"
+# define W "\033[37m"
 
 /*---------*/
 /*  Enums  */

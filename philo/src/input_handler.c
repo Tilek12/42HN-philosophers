@@ -6,7 +6,7 @@
 /*   By: tkubanyc <tkubanyc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 14:37:23 by tkubanyc          #+#    #+#             */
-/*   Updated: 2024/07/10 22:01:02 by tkubanyc         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:23:31 by tkubanyc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,11 @@ int	input_handler(int argc, char **argv, t_data *data)
 	}
 	else
 	{
-		printf("\n\t------- !!! Incorrect Input!!! -------\n\n");
-		printf("Please, follow the rules:\n\n");
-		printf("./philo <number_of_philosophers> <time_to_die> <time_to_eat>");
-		printf(" <time_to_sleep> [number_of_times_philosopher_must_eat]\n\n");
-		printf("For example: \"./philo 5 800 200 200 5\"\n\n");
+		printf(R"\t🚧🚧🚧🚧🚧 🚨🚨🚨 Incorrect Input!!! 🚨🚨🚨 🚧🚧🚧🚧🚧\n"RES);
+		printf(G"Please, follow the rules:\n\n"RES);
+		printf(Y"./philo <number_of_philosophers> <time_to_die> <time_to_eat>");
+		printf(" <time_to_sleep> [number_of_times_philosopher_must_eat]\n"RES);
+		printf(C"For example: \"./philo 5 800 200 200 5\"\n"RES);
 		return (0);
 	}
 }
